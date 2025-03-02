@@ -1,68 +1,83 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
-    let correctColor = "";
-    let score = 0;
-    let timeLeft = 30; // 30 seconds timer
-    let timer;
-
-    const colorName = document.getElementById("color-name");
-    const colorOptions = document.getElementById("color-options");
-    const message = document.getElementById("message");
-    const scoreDisplay = document.getElementById("score");
+    const board = document.getElementById("game-board");
     const timerDisplay = document.getElementById("timer");
-    const startButton = document.getElementById("start");
-
-    function generateColorMatch() {
-        // Shuffle colors
-        const shuffledColors = [...colors].sort(() => Math.random() - 0.5);
-        correctColor = shuffledColors[Math.floor(Math.random() * shuffledColors.length)];
+    const scoreDisplay = document.getElementById("score");
+    const restartBtn = document.getElementById("restart");
+    let timer = 30;
+    let score = 0;
+    let firstTile = null;
+    let secondTile = null;
+    let lockBoard = false;
+    
+    function generateTiles() {
+        const values = [1, 2, 3, 4, 5, 6, 7, 8];
+        const tiles = [...values, ...values]
+            .sort(() => Math.random() - 0.5)
+            .map(value => {
+                const tile = document.createElement("div");
+                tile.classList.add("tile");
+                tile.dataset.value = value;
+                tile.addEventListener("click", flipTile);
+                return tile;
+            });
+        board.innerHTML = "";
+        tiles.forEach(tile => board.appendChild(tile));
+    }
+    
+    function flipTile() {
+        if (lockBoard || this === firstTile || this.classList.contains("matched")) return;
+        this.textContent = this.dataset.value;
         
-        // Display the color name in a random color
-        colorName.textContent = correctColor.toUpperCase();
-        colorName.style.color = shuffledColors[Math.floor(Math.random() * shuffledColors.length)];
-
-        // Generate color buttons
-        colorOptions.innerHTML = "";
-        shuffledColors.slice(0, 4).forEach(color => {
-            let btn = document.createElement("button");
-            btn.classList.add("color-btn");
-            btn.style.backgroundColor = color;
-            btn.dataset.color = color;
-            btn.addEventListener("click", () => checkAnswer(color));
-            colorOptions.appendChild(btn);
-        });
-    }
-
-    function checkAnswer(selectedColor) {
-        if (selectedColor === correctColor) {
-            message.textContent = "✅ Correct!";
-            score++;
-        } else {
-            message.textContent = "❌ Wrong!";
+        if (!firstTile) {
+            firstTile = this;
+            return;
         }
-        scoreDisplay.textContent = `Score: ${score}`;
-        setTimeout(generateColorMatch, 800);
+        secondTile = this;
+        lockBoard = true;
+        checkMatch();
     }
-
-    function startGame() {
-        score = 0;
-        timeLeft = 30;
-        scoreDisplay.textContent = `Score: ${score}`;
-        timerDisplay.textContent = `Time Left: ${timeLeft}s`;
-        message.textContent = "";
-        generateColorMatch();
-
-        clearInterval(timer);
-        timer = setInterval(() => {
-            timeLeft--;
-            timerDisplay.textContent = `Time Left: ${timeLeft}s`;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                message.textContent = `Game Over! 🎯 Your Score: ${score}`;
-                colorOptions.innerHTML = "";
+    
+    function checkMatch() {
+        if (firstTile.dataset.value === secondTile.dataset.value) {
+            firstTile.classList.add("matched");
+            secondTile.classList.add("matched");
+            score += 10;
+            scoreDisplay.textContent = score;
+            resetBoard();
+        } else {
+            setTimeout(() => {
+                firstTile.textContent = "";
+                secondTile.textContent = "";
+                resetBoard();
+            }, 1000);
+        }
+    }
+    
+    function resetBoard() {
+        firstTile = null;
+        secondTile = null;
+        lockBoard = false;
+    }
+    
+    function startTimer() {
+        const interval = setInterval(() => {
+            if (timer <= 0) {
+                clearInterval(interval);
+                alert("Time's up! Your score: " + score);
             }
+            timerDisplay.textContent = --timer;
         }, 1000);
     }
-
-    startButton.addEventListener("click", startGame);
+    
+    restartBtn.addEventListener("click", () => {
+        timer = 30;
+        score = 0;
+        timerDisplay.textContent = timer;
+        scoreDisplay.textContent = score;
+        generateTiles();
+        startTimer();
+    });
+    
+    generateTiles();
+    startTimer();
 });
