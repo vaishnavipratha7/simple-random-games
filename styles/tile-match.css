@@ -1,9 +1,8 @@
-/* Memory Game - Updated Responsive CSS */
-
 body {
-    font-family: 'Poppins', Arial, sans-serif;
+    font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #e3f2fd, #f4f4f4);
+    color: #333;
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,105 +12,130 @@ body {
     height: 100vh;
 }
 
-/* Game Container */
-.game-container {
-    margin: auto;
+#game-container {
+    max-width: 400px;
+    width: 90%;
     padding: 20px;
     background: white;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    transition: transform 0.2s ease-in-out;
 }
 
-/* Game Board */
-.game-board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 20px;
+#game-container:hover {
+    transform: scale(1.02);
 }
 
-/* Memory Tiles */
-.tile {
-    width: 80px;
-    height: 80px;
-    background: #3498db;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+h1 {
+    font-size: 26px;
+    color: #222;
+    font-weight: bold;
+}
+
+#instruction {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+#color-name {
     font-size: 24px;
     font-weight: bold;
+    color: black;
+    padding: 12px;
+    border: 3px solid #000;
+    display: inline-block;
+    margin: 10px 0;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    letter-spacing: 1px;
+}
+
+#color-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.color-btn {
+    width: 70px;
+    height: 70px;
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
-    border-radius: 10px;
-    transition: transform 0.3s, background 0.3s;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Tile Flip Effect */
-.tile:hover {
+.color-btn:hover {
     transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Matched Tiles */
-.tile.matched {
-    background: #2ecc71;
-    transform: scale(1);
+#message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #444;
 }
 
-/* Restart Button */
-#restart {
+#score, #timer {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 12px;
+    color: #222;
+}
+
+#start {
     margin-top: 15px;
     padding: 12px 25px;
-    background: #e74c3c;
+    font-size: 18px;
+    background: #28a745;
     color: white;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: 0.3s;
+    transition: background 0.3s, transform 0.2s;
 }
 
-#restart:hover {
-    background: #c0392b;
-    transform: scale(1.1);
+#start:hover {
+    background: #218838;
+    transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-    .game-board {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+/* 📱 Mobile Optimization */
+@media (max-width: 480px) {
+    #game-container {
+        width: 95%;
         padding: 15px;
     }
 
-    .tile {
-        width: 70px;
-        height: 70px;
-        font-size: 20px;
+    #color-options {
+        grid-template-columns: repeat(3, 1fr); /* Ensure even spacing */
+        gap: 10px;
     }
 
-    #restart {
-        font-size: 14px;
-        padding: 10px 20px;
-    }
-}
-
-@media (max-width: 400px) {
-    .game-board {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .tile {
+    .color-btn {
         width: 60px;
         height: 60px;
-        font-size: 18px;
     }
 
-    #restart {
+    h1 {
+        font-size: 22px;
+    }
+
+    #instruction {
         font-size: 14px;
-        padding: 8px 18px;
+    }
+
+    #color-name {
+        font-size: 22px;
+    }
+
+    #message {
+        font-size: 16px;
     }
 }
