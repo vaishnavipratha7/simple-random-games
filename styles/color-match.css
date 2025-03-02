@@ -12,8 +12,9 @@ body {
     height: 100vh;
 }
 
-#game-container {
+.game-container {
     max-width: 400px;
+    width: 90%;
     padding: 20px;
     background: white;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -21,7 +22,7 @@ body {
     transition: transform 0.2s ease-in-out;
 }
 
-#game-container:hover {
+.game-container:hover {
     transform: scale(1.02);
 }
 
@@ -31,66 +32,51 @@ h1 {
     font-weight: bold;
 }
 
-#instruction {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4x4 grid */
+    gap: 10px;
+    margin-top: 15px;
+    padding: 10px;
+    justify-content: center;
 }
 
-#color-name {
+.tile {
+    width: 70px;
+    height: 70px;
+    background: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
     font-size: 24px;
     font-weight: bold;
-    color: black;
-    padding: 12px;
-    border: 3px solid #000;
-    display: inline-block;
-    margin: 10px 0;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.05);
-    letter-spacing: 1px;
-}
-
-#color-options {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.color-btn {
-    width: 75px;
-    height: 75px;
-    border: none;
-    border-radius: 50%;
+    text-align: center;
+    line-height: 70px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition: background 0.3s, transform 0.2s;
 }
 
-.color-btn:hover {
-    transform: scale(1.15);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+.tile:hover {
+    background: #ddd;
+    transform: scale(1.1);
 }
 
-#message {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #444;
+.matched {
+    background: #28a745;
+    color: white;
 }
 
-#score, #timer {
+#timer, #score {
     font-size: 18px;
     font-weight: bold;
     margin-top: 12px;
     color: #222;
 }
 
-#start {
+#restart {
     margin-top: 15px;
     padding: 12px 25px;
     font-size: 18px;
-    background: #28a745;
+    background: #ff5722;
     color: white;
     border: none;
     border-radius: 6px;
@@ -98,40 +84,35 @@ h1 {
     transition: background 0.3s, transform 0.2s;
 }
 
-#start:hover {
-    background: #218838;
+#restart:hover {
+    background: #e64a19;
     transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 450px) {
-    #game-container {
-        width: 90%;
+/* 📱 Mobile Optimization */
+@media (max-width: 480px) {
+    .game-container {
+        width: 95%;
         padding: 15px;
     }
 
-    .color-btn {
-        width: 60px;
-        height: 60px;
+    #game-board {
+        grid-template-columns: repeat(3, 1fr); /* Smaller grid for mobile */
+        gap: 8px;
     }
 
-    #color-options {
-        gap: 10px;
+    .tile {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 20px;
     }
 
     h1 {
         font-size: 22px;
     }
 
-    #instruction {
-        font-size: 14px;
-    }
-
-    #color-name {
-        font-size: 22px;
-    }
-
-    #message {
+    #timer, #score {
         font-size: 16px;
     }
 }
